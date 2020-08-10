@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    button {
+      outline: 0 !important;
+      cursor: pointer;
+    }
+    body {
+      background-color: #ffefcc;
+    }
+    :root {
+      --blue: #3cc2ef;
+      --red: #ed6077;
+      --grey: #666b80;
+      --black: #402f44;
+      --transp-black: rgba(0, 0, 0, 0.1);
+      --stroke: 4px solid #402f44;
+    }
+    .nintendo-switch {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      position: relative;
+    }
+    .actions {
+      width: 100px;
+      height: 270px;
+      border-radius: 50px 0 0 50px;
+      border: var(--stroke);
+      text-align: center;
+      position: relative;
+      box-shadow: inset -20px 0 var(--transp-black),
+        inset 10px 0 rgba(255, 255, 255, 0.2),
+        inset 4px 4px rgba(255, 255, 255, 0.5);
+    }
+    .analogic {
+      width: 50px;
+      height: 50px;
+      background-color: var(--grey);
+      border-radius: 50%;
+      border: var(--stroke);
+      transform: translatex(50%);
+      position: relative;
+      margin: 30px 0 15px;
+      left: -2px;
+    }
+    .analogic:after,
+    .analogic:before {
+      content: "";
+      position: absolute;
+      background-color: var(--black);
+      width: 100%;
+    }
+    .analogic:before {
+      width: 100%;
+      height: 4px;
+      left: 0;
+      top: 50%;
+      margin-top: -2px;
+    }
+    .analogic:after {
+      height: 100%;
+      width: 4px;
+      margin-left: -2px;
+    }
+    .center-circle {
+      background-color: inherit;
+      border: inherit;
+      border-radius: inherit;
+      position: absolute;
+      height: 30px;
+      width: 30px;
+      z-index: 2;
+      top: 50%;
+      left: 50%;
+      margin-left: -15px;
+      margin-top: -15px;
+      box-shadow: inset -5px 0 var(--transp-black),
+        inset 6px 0 rgba(255, 255, 255, 0.2),
+        inset 4px 8px rgba(255, 255, 255, 0.1);
+    }
+    .actions.left {
+      background-color: var(--blue);
+    }
+    .actions.right {
+      background-color: var(--red);
+      border-radius: 0 50px 50px 0;
+    }
+    .actions.right .analogic {
+      top: 82px;
+    }
+    .actions.right .buttons {
+      top: -66px;
+    }
+    .buttons {
+      width: 70%;
+      margin: 0 auto;
+      position: relative;
+    }
+    .buttons button {
+      border: var(--stroke);
+      background-color: var(--grey);
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      padding: 0;
+      color: var(--black);
+      font-size: 12px;
+      position: absolute;
+      box-shadow: inset -3px 0 var(--transp-black);
+    }
+    .buttons button:after {
+      content: "";
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 5px solid var(--black);
+      transform: translate(-50%, -50%);
+      position: absolute;
+    }
+    .buttons button:nth-child(1) {
+      left: 0;
+      top: 20px;
+      transform: rotate(-90deg);
+    }
+    .buttons button:nth-child(2) {
+      top: 0;
+      left: 50%;
+      margin-left: -13px;
+    }
+    .buttons button:nth-child(3) {
+      right: 0;
+      top: 20px;
+      transform: rotate(90deg);
+    }
+    .buttons button:nth-child(4) {
+      top: 40px;
+      left: 50%;
+      margin-left: -13px;
+      transform: rotate(180deg);
+    }
+    .circle,
+    .square {
+      border: var(--stroke);
+      background-color: var(--grey);
+      width: 15px;
+      height: 15px;
+      position: absolute;
+      bottom: 70px;
+      right: 15px;
+    }
+    .circle {
+      border-radius: 50%;
+      left: 15px;
+      right: auto;
+    }
+    .actions:after,
+    .actions:before {
+      content: "";
+      position: absolute;
+      background-color: var(--grey);
+      z-index: -9;
+    }
+    .actions:after {
+      border: var(--stroke);
+      height: 90%;
+      width: 100%;
+      border-radius: 300px;
+      top: 20px;
+    }
+    .actions.left:after {
+      transform: rotate(14deg);
+      left: -30px;
+      box-shadow: inset -70px 100px var(--transp-black),
+        inset -60px 80px var(--transp-black);
+    }
+    .actions.right:after {
+      transform: rotate(-14deg);
+      right: -30px;
+      box-shadow: inset 70px 100px var(--transp-black),
+        inset 60px 80px var(--transp-black);
+    }
+
+    .actions:before {
+      width: 80px;
+      height: 50px;
+      top: -9px;
+      border: 2px solid var(--black);
+    }
+    .actions.left:before {
+      border-radius: 1000px 0;
+      left: -9px;
+    }
+    .actions.right:before {
+      border-radius: 0 1000px;
+      right: -9px;
+    }
+    .minus,
+    .plus {
+      font-size: 20px;
+      font-weight: bold;
+      color: var(--black);
+      position: absolute;
+      top: 10px;
+      text-shadow: 0 2px rgba(255, 255, 255, 0.3);
+    }
+    .minus {
+      right: 10px;
+    }
+    .plus {
+      left: 10px;
+    }
+
+    .middle {
+      padding: 6px 10px;
+      background-color: var(--grey);
+      border-top: var(--stroke);
+      border-bottom: var(--stroke);
+      box-shadow: inset 0 0 50px var(--black);
+      overflow: hidden;
+    }
+
+    .screen {
+      border: 30px solid var(--black);
+      background-color: var(--red);
+      border-radius: 5px;
+      width: 370px;
+      height: 236px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .screen span {
+      font-family: "Arial";
+      color: var(--black);
+      font-size: 1.2em;
+      position: relative;
+      opacity: 1;
+      top: 0;
+      text-align: center;
+      animation: blindText 0.4s ease infinite;
+      animation-direction: alternate;
+      line-height: 1.6em;
+      z-index: 9;
+    }
+    .screen strong {
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 1.5em;
+    }
+    .screen:after,
+    .screen:before,
+    .screen .glass,
+    .screen .glass:after {
+      content: "";
+      width: 200%;
+      height: 100%;
+      position: absolute;
+      transform: rotate(45deg);
+    }
+    .screen .glass,
+    .screen .glass:after {
+      transform: rotate(-30deg);
+      background-color: rgba(255, 255, 255, 0.12);
+      top: -100px;
+      z-index: 99;
+    }
+    .screen .glass:after {
+      transform: rotate(-12deg);
+    }
+    .screen:before {
+      background-color: var(--blue);
+      top: 0;
+      left: 0;
+    }
+    .screen:after {
+      background-color: #ffefcc;
+      top: -20%;
+      left: -130%;
+    }
+    .nintendo-switch:after {
+      content: "";
+      width: 600px;
+      height: 30px;
+      position: absolute;
+      background-color: var(--transp-black);
+      border-radius: 50%;
+      bottom: 210px;
+    }
+    @keyframes blindText {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(1.04);
+      }
+    }
+    @keyframes hideText {
+      0% {
+        opacity: 1;
+        top: 0;
+      }
+      100% {
+        opacity: 0;
+        top: 20px;
+      }
+    }
+    @keyframes closeScreen {
+      0% {
+        transform: scalex(1);
+      }
+      100% {
+        transform: scalex(0);
+        width: 90px;
+      }
+    }
+
+    @keyframes rotateBaseLeft {
+      0% {
+        transform: rotate(14deg);
+        left: -30px;
+      }
+      100% {
+        transform: rotate(-14deg);
+        left: 30px;
+        opacity: 0;
+      }
+    }
+    @keyframes rotateBaseRight {
+      0% {
+        transform: rotate(-14deg);
+        right: -30px;
+      }
+      100% {
+        transform: rotate(14deg);
+        right: 30px;
+        opacity: 0;
+      }
+    }
+    @keyframes topBottom {
+      0% {
+        top: 0;
+      }
+      25% {
+        top: -40px;
+      }
+      50% {
+        top: 40px;
+      }
+      100% {
+        top: 0;
+      }
+    }
+    @keyframes bottomTop {
+      0% {
+        top: 0;
+      }
+      25% {
+        top: 40px;
+      }
+      50% {
+        top: -40px;
+      }
+      100% {
+        top: 0;
+      }
+    }
+    @keyframes shadow {
+      0% {
+        width: 600px;
+      }
+      100% {
+        width: 300px;
+      }
+    }
+    @keyframes blueLine {
+      0% {
+        top: 0;
+        transform: rotate(45deg);
+      }
+      8% {
+        top: -110px;
+        transform: rotate(0deg);
+      }
+      90% {
+        top: -110px;
+        transform: rotate(0deg);
+      }
+      100% {
+        top: -200px;
+        transform: rotate(0deg);
+      }
+    }
+    @keyframes whiteLine {
+      0% {
+        top: 0;
+        transform: rotate(45deg);
+      }
+      8% {
+        top: 110px;
+        transform: rotate(0deg);
+      }
+      90% {
+        top: 110px;
+        transform: rotate(0deg);
+      }
+      100% {
+        top: 200px;
+        transform: rotate(0deg);
+      }
+    }
+
+    input[type="checkbox"]:checked + .nintendo-switch .screen {
+      animation: closeScreen 0.5s ease-out 0.2s;
+      animation-fill-mode: forwards;
+    }
+    input[type="checkbox"]:checked + .nintendo-switch .screen span {
+      animation: hideText 0.5s ease-out 0.6;
+      animation-fill-mode: forwards;
+    }
+
+    input[type="checkbox"]:checked + .nintendo-switch .actions.left:after {
+      animation: rotateBaseLeft 0.5s ease-out;
+      animation-fill-mode: forwards;
+    }
+
+    input[type="checkbox"]:checked + .nintendo-switch .actions.right:after {
+      animation: rotateBaseRight 0.5s ease-out;
+      animation-fill-mode: forwards;
+    }
+    input[type="checkbox"]:checked + .nintendo-switch .actions.right {
+      animation: topBottom 2s cubic-bezier(0.02, 0.45, 0, 1.4) 0.8s;
+      animation-fill-mode: forwards;
+    }
+    input[type="checkbox"]:checked + .nintendo-switch .actions.left {
+      animation: bottomTop 2s cubic-bezier(0.02, 0.45, 0, 1.4) 0.9s;
+      animation-fill-mode: forwards;
+    }
+    input[type="checkbox"]:checked + .nintendo-switch:after {
+      animation: shadow 0.5s ease-out 0.2s;
+      animation-fill-mode: forwards;
+    }
+    input[type="checkbox"]:checked + .nintendo-switch .screen:before {
+      animation: blueLine 3s ease-out;
+      animation-fill-mode: forwards;
+    }
+    input[type="checkbox"]:checked + .nintendo-switch .screen:after {
+      animation: blueLine 3s ease-out 0.4;
+      animation-fill-mode: forwards;
+    }
+  </style>
+  <body>
+    <input type="checkbox" id="screen" name="screen" />
+    <main class="nintendo-switch">
+      <aside class="actions left">
+        <i class="minus">-</i>
+        <div class="analogic">
+          <div class="center-circle"></div>
+        </div>
+        <div class="buttons">
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+        </div>
+        <div class="square"></div>
+      </aside>
+      <label class="middle" for="screen">
+        <div class="screen">
+          <div class="glass"></div>
+          <span
+            >Click here to <br />
+            <strong>Animate</strong>
+          </span>
+        </div>
+      </label>
+
+      <aside class="actions right">
+        <i class="plus">+</i>
+        <div class="analogic">
+          <div class="center-circle"></div>
+        </div>
+        <div class="buttons">
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+        </div>
+        <div class="circle"></div>
+      </aside>
+    </main>
+  </body>
+</html>
